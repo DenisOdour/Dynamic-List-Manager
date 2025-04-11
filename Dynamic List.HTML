@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic List Manager</title>
+
+  <!-- Include React and ReactDOM CDN links -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  
+  <!-- Include Babel to allow JSX in the browser -->
+  <script src="https://unpkg.com/@babel/standalone"></script>
+
+  <!-- CSS Styling -->
+  <style>
+    /* Styling for a clean and minimal design */
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f4f4f4;
+    }
+
+    .app-container {
+      width: 300px;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .add-item-form {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .input-field {
+      width: 70%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .add-item-button {
+      width: 25%;
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      background-color: #007bff;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .add-item-button:hover {
+      background-color: #0056b3;
+    }
+
+    .list-container {
+      margin-top: 20px;
+      border: 1px solid #ddd;
+      padding: 10px;
+      border-radius: 4px;
+      background-color: #f9f9f9;
+    }
+
+    .list-item {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+      font-size: 16px;
+      color: #333;
+    }
+
+    .list-item:last-child {
+      border-bottom: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- App container for the root of the React app -->
+  <div id="root"></div>
+
+  <!-- React Application Code using Babel -->
+  <script type="text/babel">
+    const { useState } = React;
+
+    // AddItemForm Component: Contains the input and button for adding new items
+    const AddItemForm = ({ addItem }) => {
+      const [inputValue, setInputValue] = useState('');
+
+      const handleAddClick = () => {
+        if (inputValue.trim()) {
+          addItem(inputValue);
+          setInputValue(''); // Clear the input field after adding
+        }
+      };
+
+      return (
+        <div className="add-item-form">
+          <input
+            type="text"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            placeholder="Enter item"
+            className="input-field"
+          />
+          <button onClick={handleAddClick} className="add-item-button">
+            Add Item
+          </button>
+        </div>
+      );
+    };
+
+    // List Component: Displays the list of items
+    const List = ({ items }) => {
+      return (
+        <div className="list-container">
+          {items.map((item, index) => (
+            <div className="list-item" key={index}>
+              {item}
+            </div>
+          ))}
+        </div>
+      );
+    };
+
+    // Main App Component: Manages the state of the list and renders AddItemForm and List components
+    const App = () => {
+      const [items, setItems] = useState([]);
+
+      const addItem = (item) => {
+        setItems((prevItems) => [...prevItems, item]);
+      };
+
+      return (
+        <div className="app-container">
+          <h1>Dynamic List Manager</h1>
+          <AddItemForm addItem={addItem} />
+          <List items={items} />
+        </div>
+      );
+    };
+
+    // Render the App component into the DOM
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
+</body>
+</html>
+
+	
